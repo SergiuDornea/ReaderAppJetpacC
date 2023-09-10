@@ -7,4 +7,16 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="smoke">#F3F4F4</color>
+    <color name="pistacio">#ADC89C</color>
+    <color name="intense_green">#648C63</color>
+    <color name="green">#597359</color>
+    <color name="dark_green">#2E2D1C</color>
+    <color name="logo_cyan">#11aaa6</color>
+    <color name="logo_green">#20d397</color>
+
+
+
+
 </resources>
