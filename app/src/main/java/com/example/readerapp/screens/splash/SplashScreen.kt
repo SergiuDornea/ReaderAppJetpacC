@@ -35,6 +35,7 @@ fun SplashScreen(navController: NavHostController = rememberNavController()) {
                 .background(colorResource(id = R.color.green))
         ) {
             Logo(330.dp)
+
         }
     }
 }
