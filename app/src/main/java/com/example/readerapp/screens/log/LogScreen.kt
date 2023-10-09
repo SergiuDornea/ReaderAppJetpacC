@@ -1,16 +1,25 @@
 package com.example.readerapp.screens.log
 
 
+import android.content.res.Resources.Theme
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -18,15 +27,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.readerapp.R
-import com.example.readerapp.utils.CustomLogInButton
-import com.example.readerapp.utils.CustomTextField
+import com.example.readerapp.utils.CustomInputField
+import com.example.readerapp.utils.EmailInput
 import com.example.readerapp.utils.Logo
 
 
@@ -41,26 +56,57 @@ fun LogScreen(navController: NavHostController = rememberNavController()) {
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            LogInForm()
+            UserForm()
+
             }
         }
     }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class)
+@Preview
 @Composable
-fun LogInForm() {
-    val email = rememberSaveable{mutableStateOf("")}
-    val password = rememberSaveable{mutableStateOf("")}
-    val passwordVisibility = rememberSaveable{mutableStateOf(false)}
-    val passwordFocusRequest = FocusRequester.Default
-    val keyboardController = LocalSoftwareKeyboardController.current
+fun UserForm(){
+// property's needed
+   val email = rememberSaveable { mutableStateOf("") }
+   val password = rememberSaveable { mutableStateOf("") }
+   val passwordVisibility = rememberSaveable { mutableStateOf(false) }
+   val passwordFocusRequest  = FocusRequester.Default
+   val keyboardController  = LocalSoftwareKeyboardController.current
     val valid = remember(email.value, password.value){
         email.value.trim().isNotEmpty() && password.value.trim().isNotEmpty()
     }
-    Logo(size = 270.dp)
-    CustomTextField("Name", modifier = Modifier.padding(top = 40.dp))
-    CustomTextField("Password", modifier = Modifier.padding(top = 20.dp))
-    CustomLogInButton(text = "Log in", btnColor = colorResource(id = R.color.pistacio), contentColor = colorResource(id = R.color.dark_green) )
+
+    val modifier = Modifier
+        .height(250.dp)
+        .background(colorResource(id = R.color.green))
+        .verticalScroll(rememberScrollState())
+
+    Column(
+        modifier,
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "Just read! :)",
+            fontSize = 46.sp,
+            color = colorResource(id = R.color.pistacio),
+            fontWeight = FontWeight.Bold
+
+            )
+        EmailInput(
+            emailState = email,
+            enabled = true,
+            onAction = KeyboardActions{
+                passwordFocusRequest.requestFocus()
+            }
+        )
 
 
+
+
+    }
 }
+
+
+
+
