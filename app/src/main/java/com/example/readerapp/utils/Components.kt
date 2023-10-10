@@ -4,7 +4,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -15,6 +18,8 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.readerapp.R
@@ -22,7 +27,7 @@ import com.example.readerapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomInputField(
+fun CustomEmailField(
     modifier: Modifier = Modifier,
     valueState: MutableState<String>,
     labelId: String,
@@ -30,7 +35,7 @@ fun CustomInputField(
     isSingleLine:Boolean = true,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
-    onAction: KeyboardActions = KeyboardActions.Default
+    onAction: KeyboardActions = KeyboardActions.Default,
 ) {
     OutlinedTextField(
         value = valueState.value,
@@ -68,7 +73,7 @@ fun EmailInput(
     imeAction: ImeAction= ImeAction.Next,
     onAction: KeyboardActions = KeyboardActions.Default
 ){
-    CustomInputField(
+    CustomEmailField(
         modifier = modifier,
         valueState = emailState,
         labelId = labelId,
@@ -79,3 +84,53 @@ fun EmailInput(
     )
 
 }
+
+
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PasswordInput(
+    modifier: Modifier = Modifier,
+    passwordState: MutableState<String>,
+    labelId: String,
+    enabled: Boolean,
+    passwordVisibility: MutableState<Boolean>,
+    onAction: KeyboardActions,
+    imeAction: ImeAction = ImeAction.Done
+) {
+    val visualTransformation = if(passwordVisibility.value) VisualTransformation.None else
+        PasswordVisualTransformation()
+    OutlinedTextField(value = passwordState.value,
+        onValueChange ={
+            passwordState.value = it
+        },
+        label = {Text(text = labelId)},
+        singleLine = true,
+        textStyle = TextStyle(fontSize = 18.sp, color = colorResource(id = R.color.smoke)),
+        modifier = modifier
+            .padding(bottom = 10.dp, start = 10.dp, end = 10.dp)
+            .fillMaxWidth(),
+        enabled = enabled,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = imeAction),
+        visualTransformation = visualTransformation,
+        trailingIcon = {
+            PaswordVisibility(passwordVisibility = passwordVisibility)
+        },
+        keyboardActions = onAction
+
+    )
+
+}
+
+@Composable
+fun PaswordVisibility(passwordVisibility: MutableState<Boolean>) {
+    val visible = passwordVisibility.value
+    IconButton(onClick = { passwordVisibility.value = !visible}) {
+        Icons.Default.Close
+    }
+}
+
+
+
+
