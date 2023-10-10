@@ -1,21 +1,18 @@
 package com.example.readerapp.screens.log
 
 
-import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,8 +24,10 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,6 +43,11 @@ import com.example.readerapp.utils.SubmitButton
 @Preview
 @Composable
 fun LogScreen(navController: NavHostController = rememberNavController()) {
+
+    val showLogInForm = rememberSaveable {
+        mutableStateOf(true)
+    }
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = colorResource(id = R.color.green)
@@ -52,11 +56,38 @@ fun LogScreen(navController: NavHostController = rememberNavController()) {
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            UserForm(loading = false, isCreateAccount = false){ email, password->
-                Log.d("FORM", "LogScreen: $email - $password")
+            if(showLogInForm.value) {
+                // show log in form
+                UserForm(loading = false, isCreateAccount = false) { email, password ->
+                    // TODO Firebase log in 
+                }
+            }else{
+                // show new user form
+                UserForm(loading = false, isCreateAccount = true){ email, password ->
+                // TODO Firebase new account
+                    
+                }
             }
 
             }
+        
+        Spacer(modifier = Modifier.padding(top = 15.dp))
+        Row(
+            modifier = Modifier
+                .padding(15.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+            ) {
+            val text = if(showLogInForm.value) "Sign up" else "Log in"
+            Text(text = "New user?", color = colorResource(id = R.color.pistacio))
+            Text(text = text, modifier = Modifier
+                .clickable {
+                    showLogInForm.value = !showLogInForm.value
+                }
+                .padding(start = 5.dp),
+            fontWeight = FontWeight.Bold,
+            color = colorResource(id = R.color.smoke))
+        }
         }
     }
 
@@ -80,7 +111,7 @@ fun UserForm(
     }
 
     val modifier = Modifier
-        .height(350.dp)
+        .height(400.dp)
         .background(colorResource(id = R.color.green))
         .verticalScroll(rememberScrollState())
 
@@ -96,6 +127,16 @@ fun UserForm(
             fontWeight = FontWeight.Bold
 
             )
+        Spacer(modifier = Modifier.padding(top = 35.dp))
+
+        if(isCreateAccount){
+            Text(
+                text = stringResource(id = R.string.create_account),
+                color = colorResource(id = R.color.smoke),
+                modifier = Modifier.padding(4.dp)
+            )
+            
+        }
         EmailInput(
             emailState = email,
             enabled = !loading,
@@ -122,6 +163,7 @@ fun UserForm(
             validInputs = valid,
         ){
             onDone(email.value.trim(), password.value.trim())
+            keyboardController?.hide()
         }
 
 

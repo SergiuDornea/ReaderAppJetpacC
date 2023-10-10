@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.readerapp.screens.create.CreateAccount
 import com.example.readerapp.screens.details.BookDetailsScreen
 import com.example.readerapp.screens.home.HomeScreen
 import com.example.readerapp.screens.log.LogScreen
@@ -26,9 +25,6 @@ fun ReaderNavigation(){
             LogScreen(navController = navController)
         }
 
-        composable(ReaderScreens.CreateAccountScreen.name){
-            CreateAccount(navController = navController)
-        }
 
         composable(ReaderScreens.HomeScreen.name){
             HomeScreen(navController = navController)

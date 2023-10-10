@@ -158,7 +158,7 @@ fun SubmitButton(
         onClick = { onClick },
         enabled = !loading && validInputs,
         modifier = Modifier
-            .padding(4.dp)
+            .padding( 20.dp)
             .fillMaxWidth(),
         shape = CircleShape
     ) {
