@@ -2,10 +2,14 @@ package com.example.readerapp.utils
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -117,7 +121,16 @@ fun PasswordInput(
         trailingIcon = {
             PaswordVisibility(passwordVisibility = passwordVisibility)
         },
-        keyboardActions = onAction
+        keyboardActions = onAction,
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            textColor = colorResource(id = R.color.smoke),
+            containerColor = colorResource(id = R.color.green),
+            cursorColor = colorResource(id = R.color.smoke),
+            unfocusedBorderColor = colorResource(id = R.color.pistacio),
+            unfocusedSupportingTextColor = colorResource(id = R.color.pistacio),
+            focusedBorderColor = colorResource(id = R.color.smoke),
+
+            )
 
     )
 
@@ -134,3 +147,22 @@ fun PaswordVisibility(passwordVisibility: MutableState<Boolean>) {
 
 
 
+@Composable
+fun SubmitButton(
+    text: String ,
+    loading: Boolean ,
+    validInputs: Boolean,
+    onClick: () -> Unit
+) {
+    Button(
+        onClick = { onClick },
+        enabled = !loading && validInputs,
+        modifier = Modifier
+            .padding(4.dp)
+            .fillMaxWidth(),
+        shape = CircleShape
+    ) {
+        if(loading) CircularProgressIndicator(modifier = Modifier.size(25.dp))
+        else Text(text = text, modifier = Modifier.padding(12.dp))
+    }
+}

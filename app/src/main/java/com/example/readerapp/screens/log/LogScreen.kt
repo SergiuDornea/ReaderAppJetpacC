@@ -6,10 +6,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,6 +38,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.readerapp.R
 import com.example.readerapp.utils.EmailInput
 import com.example.readerapp.utils.PasswordInput
+import com.example.readerapp.utils.SubmitButton
 
 
 @Preview
@@ -73,7 +80,7 @@ fun UserForm(
     }
 
     val modifier = Modifier
-        .height(250.dp)
+        .height(350.dp)
         .background(colorResource(id = R.color.green))
         .verticalScroll(rememberScrollState())
 
@@ -107,10 +114,21 @@ fun UserForm(
                 if(!valid) return@KeyboardActions
                 onDone(email.value.trim(), password.value.trim())
             }
-
         )
+
+        SubmitButton(
+            text = if(isCreateAccount) "Create account" else "Log in",
+            loading = loading,
+            validInputs = valid,
+        ){
+            onDone(email.value.trim(), password.value.trim())
+        }
+
+
 
 
 
     }
 }
+
+
