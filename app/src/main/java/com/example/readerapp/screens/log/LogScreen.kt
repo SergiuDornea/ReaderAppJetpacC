@@ -70,11 +70,10 @@ fun LogScreen(navController: NavHostController = rememberNavController()) {
             }
 
             }
-        
-        Spacer(modifier = Modifier.padding(top = 15.dp))
+
         Row(
             modifier = Modifier
-                .padding(15.dp),
+                .padding(top = 120.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
             ) {
